@@ -4,11 +4,8 @@ const userController = {
   // get all the users /api/users
   async getAllUsers(req, res) {
     try {
-      const dbUser = await User.find({}).populate({ path: "thoughts", path: "friends", select: "-__v" }).select("-__v");
-      if (!dbUser) {
-        res.status(400).json({ message: "Bad Request!" });
-        return;
-      }
+      const dbUser = await User.find({}).populate({ path: "thoughts", select: "-__v" }).populate({ path: "friends", select: "-__v" }).select("-__v");
+      if (!dbUser) return res.status(400).json({ message: "Bad Request!" });
       res.json(dbUser);
     } catch (err) {
       res.status(500).json(err);
@@ -19,10 +16,7 @@ const userController = {
   async createUser({ body }, res) {
     try {
       const dbUser = await User.create(body);
-      if (!dbUser) {
-        res.status(400).json({ message: "Bad Request!" });
-        return;
-      }
+      if (!dbUser) return res.status(400).json({ message: "Bad Request!" });
       res.json(dbUser);
     } catch (err) {
       res.status(500).json(err);
@@ -33,10 +27,7 @@ const userController = {
   async getSingleUser({ params }, res) {
     try {
       const dbUser = await User.findOne({ _id: params.id }).populate({ path: "thoughts", select: "-__v" }).select("-__v");
-      if (!dbUser) {
-        res.status(404).json({ message: "No user found with this id!" });
-        return;
-      }
+      if (!dbUser) return res.status(404).json({ message: "No user found with this id!" });
       res.json(dbUser);
     } catch (err) {
       res.status(500).json(err);
@@ -47,10 +38,7 @@ const userController = {
   async updateSingleUser({ params, body }, res) {
     try {
       const dbUser = await User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidator: true });
-      if (!dbUser) {
-        res.status(404).json({ message: "No user found with this id!" });
-        return;
-      }
+      if (!dbUser) return res.status(404).json({ message: "No user found with this id!" });
       res.json(dbUser);
     } catch (err) {
       res.status(500).json(err);
@@ -69,7 +57,7 @@ const userController = {
     }
   },
   // add a new friend to a user's friend list /api/users/:userId/friends/:friendId
-  //   one for post
+  //  Add friend. find the userId and push the friendId(another userId).
   async addFriend({ params }, res) {
     try {
       const dbFriend = await User.findOneAndUpdate({ _id: params.userId }, { $push: { friends: params.friendId } }, { new: true });
@@ -79,7 +67,7 @@ const userController = {
       res.status(500).json(err);
     }
   },
-  // one for DELETE
+  // Delete friend. pull the friendId from the array
   async removeFriend({ params }, res) {
     try {
       const dbFriend = await User.findOneAndUpdate({ _id: params.userId }, { $pull: { friends: params.friendId } }, { new: true });
