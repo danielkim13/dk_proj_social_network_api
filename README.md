@@ -57,8 +57,12 @@ SO THAT my website can handle large amounts of unstructured data
 
     - #4: WHEN I test API POST and DELETE routes in Insomnia
           THEN I am able to successfully create and delete reactions to thoughts and add and remove friends to a user’s friend list
+
 <hr />
 
-## Walkthrough Video
+## Screen Capture
 
-![Project Social Network](tbd)
+![Screen Capture](./public/img/socialNetwork.gif)
+
+## Walk-through Video
+![Walk-through Video](https://drive.google.com/file/d/1IP5I4vokFtats7eTvPRcWfgVpyeyA-pD/view)
