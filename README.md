@@ -65,4 +65,5 @@ SO THAT my website can handle large amounts of unstructured data
 ![Screen Capture](./public/img/socialNetwork.gif)
 
 ## Walk-through Video
-![Walk-through Video](https://drive.google.com/file/d/1IP5I4vokFtats7eTvPRcWfgVpyeyA-pD/view)
+
+[Walk-through Video](https://drive.google.com/file/d/1IP5I4vokFtats7eTvPRcWfgVpyeyA-pD/view)
