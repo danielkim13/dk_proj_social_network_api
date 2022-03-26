@@ -40,7 +40,7 @@ const thoughtController = {
       const dbThought = await Thought.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidator: true });
       if (!dbThought) return res.status(404).json({ message: "No thought found with this id" });
       console.log(dbThought);
-      res.json({ dbThought, message: "The thought has been updated successfully" });
+      res.json({ dbThought, message: "The thought was updated successfully" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -51,7 +51,7 @@ const thoughtController = {
     try {
       const dbThought = await Thought.findOneAndDelete({ _id: params.id });
       if (!dbThought) return res.status(404).json({ message: "No thought found with this id!" });
-      res.json({ dbThought, message: "The thought has been deleted successfully" });
+      res.json({ dbThought, message: "The thought was removed successfully" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -68,6 +68,15 @@ const thoughtController = {
     }
   },
   // delete a reaction by the reaction's reactionId value.
+  async removeReaction({ params }, res) {
+    try {
+      console.log(params);
+      const dbReaction = await Thought.findOneAndUpdate({ _id: params.thoughtId }, { $pull: { reactions: {reactionId: params.reactionId} } }, { new: true });
+      res.json({ dbReaction, message: "The reaction was removed successfully" });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 };
 
 module.exports = thoughtController;

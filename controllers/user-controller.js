@@ -17,7 +17,7 @@ const userController = {
     try {
       const dbUser = await User.create(body);
       if (!dbUser) return res.status(400).json({ message: "Bad Request!" });
-      res.json(dbUser);
+      res.json({ dbUser, message: "A user was created successfully" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -39,7 +39,7 @@ const userController = {
     try {
       const dbUser = await User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidator: true });
       if (!dbUser) return res.status(404).json({ message: "No user found with this id!" });
-      res.json(dbUser);
+      res.json({ dbUser, message: "A user was updated successfully" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -51,7 +51,7 @@ const userController = {
       const dbUser = await User.findOneAndDelete({ _id: params.id });
       if (!dbUser) return res.status(404).json({ message: "No user found with this id!" });
       const dbThought = await Thought.deleteMany({ _id: { $in: dbUser.thoughts } });
-      res.json({ dbUser, dbThought });
+      res.json({ dbUser, dbThought, message: "The user was removed successfully" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -62,7 +62,7 @@ const userController = {
     try {
       const dbFriend = await User.findOneAndUpdate({ _id: params.userId }, { $push: { friends: params.friendId } }, { new: true });
       if (!dbFriend) return res.status(404).json({ message: "No user found with this id!" });
-      res.json(dbFriend);
+      res.json({dbFriend, message: "A friend was added"});
     } catch (err) {
       res.status(500).json(err);
     }
@@ -72,7 +72,7 @@ const userController = {
     try {
       const dbFriend = await User.findOneAndUpdate({ _id: params.userId }, { $pull: { friends: params.friendId } }, { new: true });
       if (!dbFriend) return res.status(404).json({ message: "No user found with this id!" });
-      res.json(dbFriend);
+      res.json({dbFriend, message: "The friend was removed successfully"});
     } catch (err) {
       res.status(500).json(err);
     }
