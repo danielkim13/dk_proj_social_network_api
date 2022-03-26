@@ -62,7 +62,7 @@ const userController = {
     try {
       const dbFriend = await User.findOneAndUpdate({ _id: params.userId }, { $push: { friends: params.friendId } }, { new: true });
       if (!dbFriend) return res.status(404).json({ message: "No user found with this id!" });
-      res.json({dbFriend, message: "A friend was added"});
+      res.json({ dbFriend, message: "A friend was added" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -72,7 +72,7 @@ const userController = {
     try {
       const dbFriend = await User.findOneAndUpdate({ _id: params.userId }, { $pull: { friends: params.friendId } }, { new: true });
       if (!dbFriend) return res.status(404).json({ message: "No user found with this id!" });
-      res.json({dbFriend, message: "The friend was removed successfully"});
+      res.json({ dbFriend, message: "The friend was removed successfully" });
     } catch (err) {
       res.status(500).json(err);
     }
